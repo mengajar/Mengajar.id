@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'reac
 import { FontAwesome } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 
-const Register: React.FC = () => {
+const register_siswa: React.FC = () => {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -73,7 +73,7 @@ const Register: React.FC = () => {
         </Text>
       </View>
 
-      <TouchableOpacity style={styles.registerButton} disabled={!termsAccepted}>
+      <TouchableOpacity style={styles.registerButton}  onPress={() => router.push('/verifikasi_siswa')}>
         <Text style={styles.registerButtonText}>DAFTAR</Text>
       </TouchableOpacity>
 
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: '#ECECEC',
     alignItems: 'center',
   },
   logo: {
@@ -185,4 +185,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Register;
+export default register_siswa;

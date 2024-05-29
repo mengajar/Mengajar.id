@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
-const RegisterMitra: React.FC = () => {
+const register_mitra: React.FC = () => {
     const [code, setCode] = useState<string[]>(['', '', '', '']);
-    const [timer, setTimer] = useState<number>(30);
+    const [timer, setTimer] = useState<number>(60);
     const [resendDisabled, setResendDisabled] = useState<boolean>(true);
 
     useEffect(() => {
@@ -39,7 +39,7 @@ const RegisterMitra: React.FC = () => {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <Image source={require('./logo.png')} style={styles.logo} />
+                <Image source={require('../../assets/images/logo_m.png')} style={styles.logo} />
                 <Text style={styles.title}>Verifikasi Diri Anda</Text>
             </View>
             <Text style={styles.message}>Kode verifikasi telah dikirim ke email</Text>
@@ -85,9 +85,11 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     logo: {
-        width: 100,
-        height: 100,
-        marginBottom: 10,
+        marginTop: 100,
+        width: 200,
+        height: 80,
+        resizeMode: 'contain',
+        marginVertical: 20,
     },
     title: {
         fontSize: 24,
@@ -139,4 +141,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default RegisterMitra;
+export default register_mitra;

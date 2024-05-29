@@ -52,7 +52,7 @@ const index: React.FC = () => {
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity onPress={() => router.push('/register')} >
+      <TouchableOpacity onPress={() => router.push('/nav')} >
         <Text style={styles.registerText}>
           Belum punya akun? <Text style={styles.linkText}>Daftar</Text>
         </Text>
