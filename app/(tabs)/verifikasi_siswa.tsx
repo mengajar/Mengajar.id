@@ -3,13 +3,15 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image } from 'reac
 import { FontAwesome } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
+import PopupSiswaBenar from './popup_benar_siswa'; // Import PopupSiswaBenar
 import PopupSalahSiswa from './popup_salah_siswa'; // Import PopupSalahSiswa
 
-const verifikasi_siswa: React.FC = () => {
+const VerifikasiSiswa: React.FC = () => {
     const [code, setCode] = useState<string[]>(['', '', '', '']);
     const [timer, setTimer] = useState<number>(60);
     const [resendDisabled, setResendDisabled] = useState<boolean>(true);
-    const [isModalVisible, setModalVisible] = useState(false); // State to control modal visibility
+    const [isModalBenarVisible, setModalBenarVisible] = useState(false); // State to control correct modal visibility
+    const [isModalSalahVisible, setModalSalahVisible] = useState(false); // State to control incorrect modal visibility
     const router = useRouter();
     const inputRefs = useRef<(TextInput | null)[]>([]);
 
@@ -46,10 +48,11 @@ const verifikasi_siswa: React.FC = () => {
     const handleVerification = () => {
         const verificationCode = code.join('');
         if (verificationCode === '0000') {
-            // Logic if verification code is correct
+            // Show correct modal if verification code is correct
+            setModalBenarVisible(true);
         } else {
-            // Show modal if verification code is incorrect
-            setModalVisible(true);
+            // Show incorrect modal if verification code is incorrect
+            setModalSalahVisible(true);
         }
     };
 
@@ -58,7 +61,8 @@ const verifikasi_siswa: React.FC = () => {
     };
 
     const closeModal = () => {
-        setModalVisible(false);
+        setModalBenarVisible(false);
+        setModalSalahVisible(false);
         setCode(['', '', '', '']);
         inputRefs.current[0]?.focus();
     };
@@ -111,7 +115,8 @@ const verifikasi_siswa: React.FC = () => {
                     <Text style={styles.buttonText}>Verifikasi</Text>
                 </LinearGradient>
             </TouchableOpacity>
-            <PopupSalahSiswa isVisible={isModalVisible} onClose={closeModal} />
+            <PopupSiswaBenar isVisible={isModalBenarVisible} onClose={closeModal} />
+            <PopupSalahSiswa isVisible={isModalSalahVisible} onClose={closeModal} />
         </View>
     );
 };
@@ -207,4 +212,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default verifikasi_siswa;
+export default VerifikasiSiswa;
