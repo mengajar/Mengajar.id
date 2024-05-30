@@ -6,7 +6,7 @@ import Checkbox from 'expo-checkbox';
 
 
 
-const register_siswa: React.FC = () => {
+const register_mitra: React.FC = () => {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -26,8 +26,8 @@ const register_siswa: React.FC = () => {
   return (
     <View style={styles.container}>
       <Image source={require('../../assets/images/logo_m.png')} style={styles.logo} />
-      <Text style={styles.welcomeText}>Form Pendaftaran Siswa</Text>
-      <Text style={styles.subText}>Temukan bimbingan yang fleksibel dan berkualitas di mengajar.id</Text>
+      <Text style={styles.welcomeText}>Form Pendaftaran Mitra</Text>
+      <Text style={styles.subText}>Tingkatkan pendapatan dan majukan pendidikan bersama kami</Text>
 
       <View style={styles.inputContainer}>
         <TextInput
@@ -85,7 +85,7 @@ const register_siswa: React.FC = () => {
 
       <TouchableOpacity
         style={[styles.registerButton, !termsAccepted && styles.registerButtonDisabled]}
-        onPress={() => router.push('/verifikasi_siswa')}
+        onPress={() => router.push('/verifikasi_mitra')}
         disabled={!termsAccepted}
       >
       
@@ -206,4 +206,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default register_siswa;
+export default register_mitra;

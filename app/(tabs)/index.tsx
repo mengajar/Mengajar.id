@@ -3,10 +3,12 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'reac
 import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from 'expo-router';
 import { useRouter } from 'expo-router';
+import { LinearGradient } from 'expo-linear-gradient';
+
 
 const index: React.FC = () => {
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   return (
     <View style={styles.container}>
@@ -37,18 +39,27 @@ const index: React.FC = () => {
         Saya menyetujui semua <Text style={styles.linkText}>syarat</Text> dan <Text style={styles.linkText}>ketentuan</Text>
       </Text>
 
-      <TouchableOpacity style={styles.loginButton}>
+      <TouchableOpacity style={styles.loginButton} onPress={() => router.push('/home_page')}>
+      <LinearGradient
+          colors={['#1E90FF', '#87CEFA']}
+          style={styles.gradientButton}
+          start={[0, 0]}
+          end={[1, 1]}
+        >
         <Text style={styles.loginButtonText}>Login</Text>
+        </LinearGradient>
       </TouchableOpacity>
 
       <Text style={styles.loginWithText}>Login dengan:</Text>
 
       <View style={styles.socialLoginContainer}>
         <TouchableOpacity style={styles.socialButton}>
-          <FontAwesome name="google" size={24} color="white" />
+        <Image source={require('../../assets/images/google.png')}  style={styles.socialButton} />
+          {/* <FontAwesome name="google" size={24} color="white" />  */}
         </TouchableOpacity>
         <TouchableOpacity style={styles.socialButton}>
-          <FontAwesome name="facebook" size={24} color="white" />
+        <Image source={require('../../assets/images/facebook.png')}  style={styles.socialButton}   />
+          {/* <FontAwesome name="facebook" size={24} color="white" /> */}
         </TouchableOpacity>
       </View>
 
@@ -69,8 +80,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   logo: {
-    marginTop: 100,
-    width: 200,
+    marginTop: 50,
+    marginBottom: 50,
+    width: 300,
     height: 80,
     resizeMode: 'contain',
     marginVertical: 20,
@@ -111,7 +123,7 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
   },
   loginButton: {
-    backgroundColor: '#1E90FF',
+    // backgroundColor: '#1E90FF',
     padding: 15,
     borderRadius: 5,
     width: '100%',
@@ -123,22 +135,33 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  gradientButton: {
+    paddingVertical: 15,
+    paddingHorizontal: 60,
+    borderRadius: 5,
+    alignItems: 'center',
+    width: '100%',
+  },
   loginWithText: {
     fontSize: 16,
-    marginBottom: 10,
+    marginBottom: 0,
   },
   socialLoginContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    width: '50%',
-    marginBottom: 20,
+    width: '30%',
+    paddingTop: 30,
+    marginBottom: 30,
   },
   socialButton: {
-    backgroundColor: '#3b5998',
+    // backgroundColor: '#3b5998',
+    height: 30,
+    width: 30,
     padding: 10,
     borderRadius: 5,
     alignItems: 'center',
   },
+ 
   registerText: {
     fontSize: 16,
     color: 'gray',

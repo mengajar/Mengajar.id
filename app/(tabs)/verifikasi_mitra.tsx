@@ -1,10 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
+import { LinearGradient } from 'expo-linear-gradient';
 
-const register_mitra: React.FC = () => {
+const verifikasi_mitra: React.FC = () => {
     const [code, setCode] = useState<string[]>(['', '', '', '']);
     const [timer, setTimer] = useState<number>(60);
     const [resendDisabled, setResendDisabled] = useState<boolean>(true);
+    const router = useRouter();
+    const inputRefs = useRef<(TextInput | null)[]>([]);
 
     useEffect(() => {
         if (timer > 0) {
@@ -22,6 +27,11 @@ const register_mitra: React.FC = () => {
             const newCode = [...code];
             newCode[index] = value;
             setCode(newCode);
+
+            // Move to the next input if the value is valid and not the last input
+            if (value !== '' && index < inputRefs.current.length - 1) {
+                inputRefs.current[index + 1]?.focus();
+            }
         }
     };
 
@@ -36,8 +46,15 @@ const register_mitra: React.FC = () => {
         // Logic to verify the code
     };
 
+    const handleBack = () => {
+        router.back();
+    };
+
     return (
         <View style={styles.container}>
+            <TouchableOpacity style={styles.backButton} onPress={handleBack}>
+                <FontAwesome name="chevron-left" size={20} color="black" />
+            </TouchableOpacity>
             <View style={styles.header}>
                 <Image source={require('../../assets/images/logo_m.png')} style={styles.logo} />
                 <Text style={styles.title}>Verifikasi Diri Anda</Text>
@@ -52,6 +69,7 @@ const register_mitra: React.FC = () => {
                         value={digit}
                         onChangeText={(text) => handleInputChange(index, text)}
                         keyboardType="numeric"
+                        ref={(el) => (inputRefs.current[index] = el)}
                     />
                 ))}
             </View>
@@ -59,14 +77,24 @@ const register_mitra: React.FC = () => {
             <TouchableOpacity
                 onPress={handleResendCode}
                 disabled={resendDisabled}
-                style={[styles.resendButton, resendDisabled && styles.disabledButton]}
+                style={[
+                    styles.resendButton,
+                    resendDisabled ? styles.disabledButton : styles.enabledButton
+                ]}
             >
-                <Text style={styles.buttonText}>
-                    Kirim ulang kode: {timer > 0 ? `00:${timer < 10 ? `0${timer}` : timer}` : ''}
+                <Text style={[styles.buttonverifikasi, !resendDisabled && styles.enabledButtonText]}>
+                    Kirim ulang kode {timer > 0 ? `00:${timer < 10 ? `0${timer}` : timer} ` : ''}
                 </Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={handleVerification} style={styles.verifyButton}>
-                <Text style={styles.buttonText}>Verifikasi</Text>
+                <LinearGradient
+                    colors={['#007bff', '#00d4ff']}
+                    style={styles.gradientButton}
+                    start={[0, 0]}
+                    end={[1, 1]}
+                >
+                    <Text style={styles.buttonText}>Verifikasi</Text>
+                </LinearGradient>
             </TouchableOpacity>
         </View>
     );
@@ -77,21 +105,28 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#f0f0f0',
+        backgroundColor: '#ECECEC',
         padding: 20,
+    },
+    backButton: {
+        position: 'absolute',
+        top: 40,
+        left: 20,
+        zIndex: 0,
     },
     header: {
         textAlign: 'center',
         marginBottom: 20,
     },
     logo: {
-        marginTop: 100,
-        width: 200,
+        marginTop: 30,
+        width: 300,
         height: 80,
         resizeMode: 'contain',
         marginVertical: 20,
     },
     title: {
+        textAlign: 'center',
         fontSize: 24,
         fontWeight: 'bold',
         marginBottom: 10,
@@ -111,7 +146,7 @@ const styles = StyleSheet.create({
         height: 40,
         fontSize: 24,
         textAlign: 'center',
-        borderColor: '#ccc',
+        borderColor: 'black',
         borderWidth: 1,
         borderRadius: 5,
         marginHorizontal: 5,
@@ -119,26 +154,41 @@ const styles = StyleSheet.create({
     resendButton: {
         width: '80%',
         padding: 10,
-        backgroundColor: '#f0f0f0',
         borderRadius: 5,
         alignItems: 'center',
         marginVertical: 10,
+        borderWidth: 1,
+        borderColor: '#ccc',
     },
     disabledButton: {
-        backgroundColor: '#ccc',
+        // backgroundColor: '#f0f0f0',
+    },
+    enabledButton: {
+        borderWidth: 1,
+        // backgroundColor: '#ccc',
+    },
+    enabledButtonText: {
+        color: '#007bff',
     },
     verifyButton: {
         width: '80%',
-        padding: 10,
-        backgroundColor: '#007bff',
-        borderRadius: 5,
         alignItems: 'center',
         marginVertical: 10,
     },
+    gradientButton: {
+        width: '100%',
+        padding: 10,
+        borderRadius: 5,
+        alignItems: 'center',
+    },
     buttonText: {
-        color: '#fff',
+        color: 'white',
+        fontSize: 16,
+    },
+    buttonverifikasi: {
+        color: 'black',
         fontSize: 16,
     },
 });
 
-export default register_mitra;
+export default verifikasi_mitra;
