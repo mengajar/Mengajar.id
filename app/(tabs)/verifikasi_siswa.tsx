@@ -3,12 +3,13 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image } from 'reac
 import { FontAwesome } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
-import verifikasi_mitra from './verifikasi_mitra';
+import PopupSalahSiswa from './popup_salah_siswa'; // Import PopupSalahSiswa
 
 const verifikasi_siswa: React.FC = () => {
     const [code, setCode] = useState<string[]>(['', '', '', '']);
     const [timer, setTimer] = useState<number>(60);
     const [resendDisabled, setResendDisabled] = useState<boolean>(true);
+    const [isModalVisible, setModalVisible] = useState(false); // State to control modal visibility
     const router = useRouter();
     const inputRefs = useRef<(TextInput | null)[]>([]);
 
@@ -44,11 +45,22 @@ const verifikasi_siswa: React.FC = () => {
 
     const handleVerification = () => {
         const verificationCode = code.join('');
-        // Logic to verify the code
+        if (verificationCode === '0000') {
+            // Logic if verification code is correct
+        } else {
+            // Show modal if verification code is incorrect
+            setModalVisible(true);
+        }
     };
 
     const handleBack = () => {
         router.back();
+    };
+
+    const closeModal = () => {
+        setModalVisible(false);
+        setCode(['', '', '', '']);
+        inputRefs.current[0]?.focus();
     };
 
     return (
@@ -56,10 +68,12 @@ const verifikasi_siswa: React.FC = () => {
             <TouchableOpacity style={styles.backButton} onPress={handleBack}>
                 <FontAwesome name="chevron-left" size={20} color="black" />
             </TouchableOpacity>
+
             <View style={styles.header}>
                 <Image source={require('../../assets/images/logo_m.png')} style={styles.logo} />
                 <Text style={styles.title}>Verifikasi Diri Anda</Text>
             </View>
+
             <Text style={styles.message}>Kode verifikasi telah dikirim ke email</Text>
             <View style={styles.codeInputs}>
                 {code.map((digit, index) => (
@@ -97,6 +111,7 @@ const verifikasi_siswa: React.FC = () => {
                     <Text style={styles.buttonText}>Verifikasi</Text>
                 </LinearGradient>
             </TouchableOpacity>
+            <PopupSalahSiswa isVisible={isModalVisible} onClose={closeModal} />
         </View>
     );
 };
