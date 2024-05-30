@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
   },
   linkText: {
     color: 'blue',
-    textDecorationLine: 'underline',
+    // textDecorationLine: 'underline',
   },
   registerButton: {
     backgroundColor: '#1E90FF',

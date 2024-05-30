@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-import { useNavigation } from 'expo-router';
 import { useRouter } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
-
+import Checkbox from 'expo-checkbox';
 
 const index: React.FC = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [isChecked, setIsChecked] = useState(false); // State for checkbox
   const router = useRouter();
+  
   return (
     <View style={styles.container}>
       <Image source={require('../../assets/images/logo_m.png')} style={styles.logo} />
@@ -35,18 +36,29 @@ const index: React.FC = () => {
         </TouchableOpacity>
       </View>
 
-      <Text style={styles.termsText}>
-        Saya menyetujui semua <Text style={styles.linkText}>syarat</Text> dan <Text style={styles.linkText}>ketentuan</Text>
-      </Text>
+      <View style={styles.checkboxContainer}>
+        <Checkbox
+          value={isChecked}
+          onValueChange={setIsChecked}
+          style={styles.checkbox}
+        />
+        <Text style={styles.termsText}>
+          Saya menyetujui semua <Text style={styles.linkText}>syarat</Text> dan <Text style={styles.linkText}>ketentuan</Text>
+        </Text>
+      </View>
 
-      <TouchableOpacity style={styles.loginButton} onPress={() => router.push('/home_page')}>
-      <LinearGradient
+      <TouchableOpacity
+        style={[styles.loginButton, !isChecked && styles.disabledButton]} // Disable button style
+        onPress={() => router.push('/home_page')}
+        disabled={!isChecked} // Disable button based on checkbox state
+      >
+        <LinearGradient
           colors={['#1E90FF', '#87CEFA']}
           style={styles.gradientButton}
           start={[0, 0]}
           end={[1, 1]}
         >
-        <Text style={styles.loginButtonText}>Login</Text>
+          <Text style={styles.loginButtonText}>Login</Text>
         </LinearGradient>
       </TouchableOpacity>
 
@@ -54,12 +66,10 @@ const index: React.FC = () => {
 
       <View style={styles.socialLoginContainer}>
         <TouchableOpacity style={styles.socialButton}>
-        <Image source={require('../../assets/images/google.png')}  style={styles.socialButton} />
-          {/* <FontAwesome name="google" size={24} color="white" />  */}
+          <Image source={require('../../assets/images/google.png')} style={styles.socialButton} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.socialButton}>
-        <Image source={require('../../assets/images/facebook.png')}  style={styles.socialButton}   />
-          {/* <FontAwesome name="facebook" size={24} color="white" /> */}
+          <Image source={require('../../assets/images/facebook.png')} style={styles.socialButton} />
         </TouchableOpacity>
       </View>
 
@@ -112,23 +122,31 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 5,
   },
+  checkboxContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  checkbox: {
+    marginRight: 10,
+  },
   termsText: {
     fontSize: 14,
     color: 'gray',
-    textAlign: 'center',
-    marginVertical: 10,
   },
   linkText: {
     color: 'blue',
-    textDecorationLine: 'underline',
+    // textDecorationLine: 'underline',
   },
   loginButton: {
-    // backgroundColor: '#1E90FF',
     padding: 15,
     borderRadius: 5,
     width: '100%',
     alignItems: 'center',
     marginVertical: 20,
+  },
+  disabledButton: {
+    opacity: 0.5, // Style for disabled button
   },
   loginButtonText: {
     color: 'white',
@@ -154,14 +172,12 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   socialButton: {
-    // backgroundColor: '#3b5998',
     height: 30,
     width: 30,
     padding: 10,
     borderRadius: 5,
     alignItems: 'center',
   },
- 
   registerText: {
     fontSize: 16,
     color: 'gray',
