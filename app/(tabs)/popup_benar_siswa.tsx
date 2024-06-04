@@ -15,7 +15,7 @@ const PopupSalahSiswa: React.FC<PopupSalahSiswaProps> = ({ isVisible, onClose })
                 <Text style={styles.errorMessage}>Kode Verifikasi Berhasil</Text>
                 <Image source={require('../../assets/images/berhasil.png')} style={styles.errorIcon} />
                 <Text style={styles.subMessage}>Silahkan Login</Text>
-                <TouchableOpacity onPress={() => router.push('/home_page')} style={styles.button}>
+                <TouchableOpacity onPress={() => router.push('/')} style={styles.button}>
                     <Text style={styles.buttonText}>Login</Text>
                 </TouchableOpacity>
             </View>

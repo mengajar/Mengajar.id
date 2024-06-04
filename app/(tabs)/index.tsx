@@ -6,11 +6,20 @@ import { LinearGradient } from 'expo-linear-gradient';
 import Checkbox from 'expo-checkbox';
 
 const index: React.FC = () => {
+  const [email, setEmail] = useState(''); // State for email
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isChecked, setIsChecked] = useState(false); // State for checkbox
   const router = useRouter();
-  
+
+  const handleLogin = () => {
+    if (email === 'siswa@gmail.com' && password === '000000') {
+      router.push('/landing_page_siswa');
+    } else {
+      alert('Email atau kata sandi salah');
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Image source={require('../../assets/images/logo_m.png')} style={styles.logo} />
@@ -19,7 +28,13 @@ const index: React.FC = () => {
 
       <View style={styles.inputContainer}>
         <FontAwesome name="envelope" size={20} color="gray" style={styles.icon} />
-        <TextInput placeholder="Email" style={styles.input} keyboardType="email-address" />
+        <TextInput
+          placeholder="Email"
+          style={styles.input}
+          keyboardType="email-address"
+          value={email}
+          onChangeText={setEmail}
+        />
       </View>
 
       <View style={styles.inputContainer}>
@@ -49,7 +64,7 @@ const index: React.FC = () => {
 
       <TouchableOpacity
         style={[styles.loginButton, !isChecked && styles.disabledButton]} // Disable button style
-        onPress={() => router.push('/home_page')}
+        onPress={handleLogin} // Use the handleLogin function
         disabled={!isChecked} // Disable button based on checkbox state
       >
         <LinearGradient
